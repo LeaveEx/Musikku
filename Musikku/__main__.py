@@ -1,17 +1,19 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 import asyncio
 import importlib
 import sys
 
 from pyrogram import idle
+from pytgcalls.exceptions import NoActiveGroupCall
 
 import config
 from config import BANNED_USERS
@@ -32,15 +34,15 @@ async def init():
         and not config.STRING5
     ):
         LOGGER("Musikku").error(
-            "Tidak Ada Asisten Klien yang Ditentukan Vars!.. Proses Keluar."
+            "No Assistant Clients Vars Defined!.. Exiting Process."
         )
         return
     if (
         not config.SPOTIFY_CLIENT_ID
         and not config.SPOTIFY_CLIENT_SECRET
     ):
-        LOGGER("MusikkuMusic").warning(
-            "Tidak ada Spotify Vars yang ditentukan. Bot Anda tidak akan dapat memainkan kueri spotify."
+        LOGGER("Musikku").warning(
+            "No Spotify Vars defined. Your bot won't be able to play spotify queries."
         )
     try:
         users = await get_gbanned()
@@ -55,15 +57,26 @@ async def init():
     for all_module in ALL_MODULES:
         importlib.import_module("Musikku.plugins" + all_module)
     LOGGER("Musikku.plugins").info(
-        "Modul Berhasil Diimpor"
+        "Successfully Imported Modules "
     )
     await userbot.start()
     await Musikku.start()
+    try:
+        await Musikku.stream_call(
+            "http://docs.evostream.com/sample_content/assets/sintel1m720p.mp4"
+        )
+    except NoActiveGroupCall:
+        LOGGER("Musikku").error(
+            "[ERROR] - \n\nPlease turn on your Logger Group's Voice Call. Make sure you never close/end voice call in your log group"
+        )
+        sys.exit()
+    except:
+        pass
     await Musikku.decorators()
-    LOGGER("Musikku").info("Musikku Music Bot Berhasil Dimulai")
+    LOGGER("Musikku").info("Musikku Started Successfully")
     await idle()
 
 
 if __name__ == "__main__":
     loop.run_until_complete(init())
-    LOGGER("Musikku").info("Menghentikan Bot Musikku! Selamat tinggal")
+    LOGGER("Musikku").info("Stopping Musikku! GoodBye")

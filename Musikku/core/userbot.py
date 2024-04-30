@@ -1,11 +1,12 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 import sys
 
@@ -22,33 +23,38 @@ assistantids = []
 class Userbot(Client):
     def __init__(self):
         self.one = Client(
+            name="MusikkuOne",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
-            session_name=str(config.STRING1),
+            session_string=str(config.STRING1),
             no_updates=True,
         )
         self.two = Client(
+            name="MusikkuTwo",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
-            session_name=str(config.STRING2),
+            session_string=str(config.STRING2),
             no_updates=True,
         )
         self.three = Client(
+            name="MusikkuThree",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
-            session_name=str(config.STRING3),
+            session_string=str(config.STRING3),
             no_updates=True,
         )
         self.four = Client(
+            name="MusikkuFour",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
-            session_name=str(config.STRING4),
+            session_string=str(config.STRING4),
             no_updates=True,
         )
         self.five = Client(
+            name="MusikkuFive",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
-            session_name=str(config.STRING5),
+            session_string=str(config.STRING5),
             no_updates=True,
         )
 
@@ -56,7 +62,6 @@ class Userbot(Client):
         LOGGER(__name__).info(f"Starting Assistant Clients")
         if config.STRING1:
             await self.one.start()
-            
             assistants.append(1)
             try:
                 await self.one.send_message(
@@ -82,7 +87,6 @@ class Userbot(Client):
             )
         if config.STRING2:
             await self.two.start()
-            
             assistants.append(2)
             try:
                 await self.two.send_message(
@@ -108,7 +112,6 @@ class Userbot(Client):
             )
         if config.STRING3:
             await self.three.start()
-            
             assistants.append(3)
             try:
                 await self.three.send_message(
@@ -134,7 +137,6 @@ class Userbot(Client):
             )
         if config.STRING4:
             await self.four.start()
-            
             assistants.append(4)
             try:
                 await self.four.send_message(
@@ -160,7 +162,6 @@ class Userbot(Client):
             )
         if config.STRING5:
             await self.five.start()
-            
             assistants.append(5)
             try:
                 await self.five.send_message(

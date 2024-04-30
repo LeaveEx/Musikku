@@ -1,11 +1,12 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 
 import config
@@ -19,7 +20,7 @@ playmodedb = mongodb.playmode
 playtypedb = mongodb.playtypedb
 langdb = mongodb.language
 authdb = mongodb.adminauth
-videodb = mongodb.Musikkuvideocalls
+videodb = mongodb.yukkivideocalls
 onoffdb = mongodb.onoffper
 suggdb = mongodb.suggestion
 autoenddb = mongodb.autoend
@@ -164,8 +165,8 @@ async def get_playmode(chat_id: int) -> str:
     if not mode:
         mode = await playmodedb.find_one({"chat_id": chat_id})
         if not mode:
-            playmode[chat_id] = "Inline"
-            return "Inline"
+            playmode[chat_id] = "Direct"
+            return "Direct"
         playmode[chat_id] = mode["mode"]
         return mode["mode"]
     return mode
@@ -184,8 +185,8 @@ async def get_lang(chat_id: int) -> str:
     if not mode:
         lang = await langdb.find_one({"chat_id": chat_id})
         if not lang:
-            langm[chat_id] = "id"
-            return "id"
+            langm[chat_id] = "en"
+            return "en"
         langm[chat_id] = lang["lang"]
         return lang["lang"]
     return mode
@@ -458,13 +459,8 @@ async def maintenance_on():
 
 
 # Audio Video Limit
-
-from pytgcalls.types.input_stream.quality import (HighQualityAudio,
-                                                  HighQualityVideo,
-                                                  LowQualityAudio,
-                                                  LowQualityVideo,
-                                                  MediumQualityAudio,
-                                                  MediumQualityVideo)
+from pytgcalls.types import AudioQuality, VideoQuality
+from pytgcalls.types import AudioParameters, VideoParameters
 
 
 async def save_audio_bitrate(chat_id: int, bitrate: str):
@@ -478,7 +474,7 @@ async def save_video_bitrate(chat_id: int, bitrate: str):
 async def get_aud_bit_name(chat_id: int) -> str:
     mode = audio.get(chat_id)
     if not mode:
-        return "High"
+        return "Ultra"
     return mode
 
 
@@ -495,25 +491,29 @@ async def get_vid_bit_name(chat_id: int) -> str:
 async def get_audio_bitrate(chat_id: int) -> str:
     mode = audio.get(chat_id)
     if not mode:
-        return MediumQualityAudio()
+        return AudioParameters.from_quality(AudioQuality.STUDIO)
+    if str(mode) == "Ultra":
+        return AudioParameters.from_quality(AudioQuality.STUDIO)
     if str(mode) == "High":
-        return HighQualityAudio()
+        return AudioParameters.from_quality(AudioQuality.HIGH)
     elif str(mode) == "Medium":
-        return MediumQualityAudio()
+        return AudioParameters.from_quality(AudioQuality.MEDIUM)
     elif str(mode) == "Low":
-        return LowQualityAudio()
+        return AudioParameters.from_quality(AudioQuality.LOW)
 
 
 async def get_video_bitrate(chat_id: int) -> str:
     mode = video.get(chat_id)
     if not mode:
         if PRIVATE_BOT_MODE == str(True):
-            return HighQualityVideo()
+            return VideoParameters.from_quality(VideoQuality.HD_720p)
         else:
-            return MediumQualityVideo()
+            return VideoParameters.from_quality(VideoQuality.SD_360p)
+    if str(mode) == "Ultra":
+        return VideoParameters.from_quality(VideoQuality.FHD_1080p)
     if str(mode) == "High":
-        return HighQualityVideo()
+        return VideoParameters.from_quality(VideoQuality.HD_720p)
     elif str(mode) == "Medium":
-        return MediumQualityVideo()
+        return VideoParameters.from_quality(VideoQuality.SD_480p)
     elif str(mode) == "Low":
-        return LowQualityVideo()
+        return VideoParameters.from_quality(VideoQuality.SD_360p)

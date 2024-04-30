@@ -1,11 +1,12 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
@@ -117,7 +118,7 @@ def AdminActual(mystic):
                 )
             except:
                 return
-            if not member.can_manage_voice_chats:
+            if not member.privileges.can_manage_video_chats:
                 return await message.reply(_["general_5"])
         return await mystic(client, message, _)
 
@@ -152,7 +153,7 @@ def ActualAdminCB(mystic):
                 return await CallbackQuery.answer(
                     _["general_5"], show_alert=True
                 )
-            if not a.can_manage_voice_chats:
+            if not a.privileges.can_manage_video_chats:
                 if CallbackQuery.from_user.id not in SUDOERS:
                     token = await int_to_alpha(
                         CallbackQuery.from_user.id

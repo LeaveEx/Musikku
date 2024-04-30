@@ -1,11 +1,12 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 import asyncio
 import math
@@ -210,21 +211,15 @@ async def usage_dynos(client, message, _):
         AppPercentage = math.floor(App[0]["quota_used"] * 100 / quota)
     AppHours = math.floor(AppQuotaUsed / 60)
     AppMinutes = math.floor(AppQuotaUsed % 60)
-    day = math.floor(hours / 24)
     await asyncio.sleep(1.5)
     text = f"""
-╭┈─╼━━━━━━━━━━━━━╾─┈
-│         ⚡{config.MUSIC_BOT_NAME}⚡  
-├┈─╼━━━━━━━━━━━━━╾─┈ 
-│✨ ᴘᴇɴɢɢᴜɴᴀᴀɴ ᴅʏɴᴏ ꜱᴀᴀᴛ ɪɴɪ
-│  ▸ {AppHours} ᴊᴀᴍ - {AppMinutes} ᴍᴇɴɪᴛ.
-│  ▸ ᴘʀᴇꜱᴇɴᴛᴀꜱᴇ : {AppPercentage}%
-├┈──────────────┈
-│✨ ᴘᴇɴɢɢᴜɴᴀᴀɴ ᴅʏɴᴏ ʙᴜʟᴀɴ ɪɴɪ
-│  ▸ {hours} ᴊᴀᴍ - {minutes} ᴍᴇɴɪᴛ.
-│  ▸ ᴘʀᴇꜱᴇɴᴛᴀꜱᴇ : {percentage}%.
-╰┈─────────────┈ 
-  ᴅʏɴᴏ ʜᴇʀᴏᴋᴜ : {day} ʜᴀʀɪ ʟᴀɢɪ​"""
+**DYNO USAGE**
+
+<u>Usage:</u>
+Total Used: `{AppHours}`**h**  `{AppMinutes}`**m**  [`{AppPercentage}`**%**]
+
+<u>Remaining Quota:</u>
+Total Left: `{hours}`**h**  `{minutes}`**m**  [`{percentage}`**%**]"""
     return await dyno.edit(text)
 
 

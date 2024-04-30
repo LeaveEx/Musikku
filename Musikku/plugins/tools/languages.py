@@ -1,18 +1,19 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 from pykeyboard import InlineKeyboard
 from pyrogram import filters
 from pyrogram.types import InlineKeyboardButton, Message
 
 from config import BANNED_USERS
-from strings import get_command, get_string
+from strings import get_command, get_string, languages_present
 from Musikku import app
 from Musikku.utils.database import get_lang, set_lang
 from Musikku.utils.decorators import (ActualAdminCB, language,
@@ -22,21 +23,28 @@ from Musikku.utils.decorators import (ActualAdminCB, language,
 
 
 def lanuages_keyboard(_):
-        keyboard = InlineKeyboard(row_width=2)
-        keyboard.row(
-            InlineKeyboardButton(text="🏴󠁧󠁢󠁥󠁮󠁧󠁿 English", callback_data=f"languages:en"),
-            InlineKeyboardButton(text="🇮🇩 Indonesia", callback_data=f"languages:id"),
-        )
-        keyboard.row(
-            InlineKeyboardButton(text="🇮🇩 Jawa", callback_data=f"languages:jawa"),
-            InlineKeyboardButton(text="🇮🇩 Sunda", callback_data=f"languages:sunda"),
-        )
-        keyboard.row(
-            InlineKeyboardButton(text=_["BACK_BUTTON"], callback_data=f"settingsback_helper"),
-            InlineKeyboardButton(text=_["CLOSE_BUTTON"], callback_data=f"close"),
-        )
-        return keyboard
-    
+    keyboard = InlineKeyboard(row_width=3)
+    keyboard.add(
+        *[
+            (
+                InlineKeyboardButton(
+                    text=languages_present[i],
+                    callback_data=f"languages:{i}",
+                )
+            )
+            for i in languages_present
+        ]
+    )
+    keyboard.row(
+        InlineKeyboardButton(
+            text=_["BACK_BUTTON"],
+            callback_data=f"settingsback_helper",
+        ),
+        InlineKeyboardButton(
+            text=_["CLOSE_BUTTON"], callback_data=f"close"
+        ),
+    )
+    return keyboard
 
 
 LANGUAGE_COMMAND = get_command("LANGUAGE_COMMAND")
@@ -45,7 +53,6 @@ LANGUAGE_COMMAND = get_command("LANGUAGE_COMMAND")
 @app.on_message(
     filters.command(LANGUAGE_COMMAND)
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @language
@@ -81,7 +88,6 @@ async def language_markup(client, CallbackQuery, _):
         return await CallbackQuery.answer(
             "You're already on same language", show_alert=True
         )
-    await set_lang(CallbackQuery.message.chat.id, langauge)
     try:
         _ = get_string(langauge)
         await CallbackQuery.answer(

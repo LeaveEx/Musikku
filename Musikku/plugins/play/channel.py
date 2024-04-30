@@ -1,13 +1,15 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 from pyrogram import filters
+from pyrogram.enums import ChatMembersFilter, ChatMemberStatus, ChatType
 from pyrogram.types import Message
 
 from config import BANNED_USERS
@@ -23,7 +25,6 @@ CHANNELPLAY_COMMAND = get_command("CHANNELPLAY_COMMAND")
 @app.on_message(
     filters.command(CHANNELPLAY_COMMAND)
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @AdminActual
@@ -53,20 +54,21 @@ async def playmode_(client, message: Message, _):
     else:
         try:
             chat = await app.get_chat(query)
-        except:
+        except Exception as e:
+            print(f"Error: {e}")
             return await message.reply_text(_["cplay_4"])
-        if chat.type != "channel":
+        if chat.type != ChatType.CHANNEL:
             return await message.reply_text(_["cplay_5"])
         try:
-            admins = await app.get_chat_members(
-                chat.id, filter="administrators"
-            )
-        except:
+            async for user in app.get_chat_members(
+                chat.id, filter=ChatMembersFilter.ADMINISTRATORS
+            ):
+                if user.status == ChatMemberStatus.OWNER:
+                    creatorusername = user.user.username
+                    creatorid = user.user.id
+        except Exception as e:
+            print(f"Error: {e}")
             return await message.reply_text(_["cplay_4"])
-        for users in admins:
-            if users.status == "creator":
-                creatorusername = users.user.username
-                creatorid = users.user.id
         if creatorid != message.from_user.id:
             return await message.reply_text(
                 _["cplay_6"].format(chat.title, creatorusername)

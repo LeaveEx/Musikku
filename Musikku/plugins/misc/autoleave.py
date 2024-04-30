@@ -1,11 +1,12 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 import asyncio
 from datetime import datetime
@@ -26,6 +27,7 @@ async def auto_leave():
 
             for num in assistants:
                 client = await get_client(num)
+                left = 0
                 try:
                     async for i in client.iter_dialogs():
                         chat_type = i.chat.type
@@ -37,15 +39,18 @@ async def auto_leave():
                             chat_id = i.chat.id
                             if (
                                 chat_id != config.LOG_GROUP_ID
-                                and chat_id != -1001347414136
-                                and chat_id != -1001737953296
-                                and chat_id != -1001766005252
+                                and chat_id != -1001190342892
+                                and chat_id != -1001733534088
+                                and chat_id != -1001443281821
                             ):
+                                if left == 20:
+                                    continue
                                 if not await is_active_chat(chat_id):
                                     try:
                                         await client.leave_chat(
                                             chat_id
                                         )
+                                        left += 1
                                     except:
                                         continue
                 except:

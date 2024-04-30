@@ -1,15 +1,18 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 import sys
 
 from pyrogram import Client
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.types import BotCommand
 
 import config
 
@@ -20,7 +23,7 @@ class MusikkuBot(Client):
     def __init__(self):
         LOGGER(__name__).info(f"Starting Bot")
         super().__init__(
-            "Musikku",
+            name="MusikkuBot",
             api_id=config.API_ID,
             api_hash=config.API_HASH,
             bot_token=config.BOT_TOKEN,
@@ -37,13 +40,32 @@ class MusikkuBot(Client):
             )
         except:
             LOGGER(__name__).error(
-                "Bot gagal mengakses Grup log. Pastikan Anda telah menambahkan bot ke saluran log dan dipromosikan sebagai admin!"
+                "Bot has failed to access the log Group. Make sure that you have added your bot to your log channel and promoted as admin!"
             )
             sys.exit()
+        if config.SET_CMDS == str(True):
+            try:
+                await self.set_bot_commands(
+                    [
+                        BotCommand("ping", "Check that bot is alive or dead"),
+                        BotCommand("play", "Starts playing the requested song"),
+                        BotCommand("skip", "Moves to the next track in queue"),
+                        BotCommand("pause", "Pause the current playing song"),
+                        BotCommand("resume", "Resume the paused song"),
+                        BotCommand("end", "Clear the queue and leave voice chat"),
+                        BotCommand("shuffle", "Randomly shuffles the queued playlist."),
+                        BotCommand("playmode", "Allows you to change the default playmode for your chat"),
+                        BotCommand("settings", "Open the settings of the music bot for your chat.")
+                        ]
+                    )
+            except:
+                pass
+        else:
+            pass
         a = await self.get_chat_member(config.LOG_GROUP_ID, self.id)
-        if a.status != "administrator":
+        if a.status != ChatMemberStatus.ADMINISTRATOR:
             LOGGER(__name__).error(
-                "Tolong promosikan Bot sebagai Admin di Grup Logger"
+                "Please promote Bot as Admin in Logger Group"
             )
             sys.exit()
         if get_me.last_name:

@@ -1,11 +1,12 @@
 #
-# Copyright (C) 2021-2022 by kenkansaja@Github, < https://github.com/kenkansaja >.
+# Copyright (C) 2023-2024 by YukkiOwner@Github, < https://github.com/YukkiOwner >.
 #
-# This file is part of < https://github.com/kenkansaja/Musikku > project,
+# This file is part of < https://github.com/YukkiOwner/YukkiMusicBot > project,
 # and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/kenkansaja/Musikku/blob/master/LICENSE >
+# Please see < https://github.com/YukkiOwner/YukkiMusicBot/blob/master/LICENSE >
 #
 # All rights reserved.
+#
 
 from pyrogram import filters
 from pyrogram.errors import MessageNotModified
@@ -48,7 +49,6 @@ SETTINGS_COMMAND = get_command("SETTINGS_COMMAND")
 @app.on_message(
     filters.command(SETTINGS_COMMAND)
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 @language
@@ -110,7 +110,9 @@ async def settings_back_markup(
 
 ## Audio and Video Quality
 async def gen_buttons_aud(_, aud):
-    if aud == "High":
+    if aud == "Ultra":
+        buttons = audio_quality_markup(_, ultra=True)
+    elif aud == "High":
         buttons = audio_quality_markup(_, high=True)
     elif aud == "Medium":
         buttons = audio_quality_markup(_, medium=True)
@@ -120,7 +122,9 @@ async def gen_buttons_aud(_, aud):
 
 
 async def gen_buttons_vid(_, aud):
-    if aud == "High":
+    if aud == "Ultra":
+        buttons = video_quality_markup(_, ultra=True)
+    elif aud == "High":
         buttons = video_quality_markup(_, high=True)
     elif aud == "Medium":
         buttons = video_quality_markup(_, medium=True)
@@ -269,7 +273,7 @@ async def without_Admin_rights(client, CallbackQuery, _):
 
 
 @app.on_callback_query(
-    filters.regex(pattern=r"^(LQA|MQA|HQA|LQV|MQV|HQV)$")
+    filters.regex(pattern=r"^(LQA|MQA|HQA|UQA|LQV|MQV|HQV|UQV)$")
     & ~BANNED_USERS
 )
 @ActualAdminCB
@@ -292,6 +296,11 @@ async def aud_vid_cb(client, CallbackQuery, _):
             CallbackQuery.message.chat.id, "High"
         )
         buttons = audio_quality_markup(_, high=True)
+    if command == "UQA":
+        await save_audio_bitrate(
+            CallbackQuery.message.chat.id, "Ultra"
+        )
+        buttons = audio_quality_markup(_, ultra=True)
     if command == "LQV":
         await save_video_bitrate(CallbackQuery.message.chat.id, "Low")
         buttons = video_quality_markup(_, low=True)
@@ -305,6 +314,11 @@ async def aud_vid_cb(client, CallbackQuery, _):
             CallbackQuery.message.chat.id, "High"
         )
         buttons = video_quality_markup(_, high=True)
+    if command == "UQV":
+        await save_video_bitrate(
+            CallbackQuery.message.chat.id, "Ultra"
+        )
+        buttons = video_quality_markup(_, ultra=True)
     try:
         return await CallbackQuery.edit_message_reply_markup(
             reply_markup=InlineKeyboardMarkup(buttons)

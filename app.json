@@ -1,80 +1,70 @@
 {
     "name": "Musikku Music Bot",
-    "description": "Telegram Group Calls streaming bot dengan beberapa fitur berguna, ditulis dengan Python dengan Pyrogram dan Py-Tgcalls. Platform pendukung seperti Youtube, Spotify, Resso, AppleMusic, Soundcloud dan M3u8 Links.",
-    "logo": "https://telegra.ph/file/7286ea5b5a2f8dc66e3ed.jpg",
+    "description": "Telegram Group Calls streaming bot with some useful features, written in Python with Pyrogram and Py-Tgcalls. Supporting platforms like Youtube, Spotify, Resso, AppleMusic, Soundcloud and M3u8 Links.",
+    "logo": "https://telegra.ph/file/c0e014ff34f34d1056627.png",
     "keywords": [
     "python3",
     "telegram",
     "bot",
     "Musikku",
-    "MusikkuBot",
+    "MusikkuMusicBot",
     "telegram-bot",
     "pyrogram"
     ],
     "stack": "container",
     "env": {
       "API_ID": {
-        "description": "Dapatkan nilai ini dari https://my.telegram.org",
+        "description": "Get this value from https://my.telegram.org",
         "value": "",
         "required": true
       },
       "API_HASH": {
-        "description": "Dapatkan nilai ini dari https://my.telegram.org",
+        "description": "Get this value from https://my.telegram.org",
         "value": "",
         "required": true
       },
       "AUTO_LEAVING_ASSISTANT": {
-        "description": "Jika Anda ingin asisten Anda meninggalkan semua obrolan secara otomatis setelah beberapa waktu, Isi True jika iya, Isi False Jika tidak",
+        "description": "If you want your assistant to leave all chats automatically after some time.",
         "value": "True",
-        "required": true
+        "required": false
       },
       "BOT_TOKEN": {
-        "description": "Token Bot dari Botfather",
+        "description": "A Bot's token from Botfather",
         "value": "",
         "required": true
       },
       "MONGO_DB_URI": {
-        "description": "Mongo DB URL",
+        "description": "Get a mongodb url from https://cloud.mongodb.com . You can leave it blank if you want , bot will use Musikku's database for you.",
         "value": "",
         "required": true
       },
       "MUSIC_BOT_NAME": {
-        "description": "Nama untuk Bot Musik Anda. Tolong jangan gunakan karakter ascii",
+        "description": "A name for your Music Bot. Please don't use ascii characters",
         "value": "",
         "required": true
       },
-      "MUST_JOIN": {
-        "description": "Masukan ID dari Channel Atau Group Untuk Wajib Subscribenya",
-        "required": true,
-        "value": "-100"
-      },
       "OWNER_ID": {
-        "description": "ID pengguna dari pengguna yang ingin Anda tambahkan sebagai PEMILIK. Beberapa nilai harus dipisahkan dengan spasi.",
+        "description": "The user id(s) of user(s) whom you would like to add as a OWNER. Multiple values shall be seperated with a space.",
         "value": "",
         "required": true
       },
       "STRING_SESSION": {
-        "description": "Sesi String Pyrogram. Asisten Pertama adalah Wajib.",
+        "description": "A Pyrogram String Session. One Assistant is Compulsory.",
         "value": "",
         "required": true
       },
-      "DURATION_LIMIT": {
-        "description": "diisi, berapa panjang durasi maksimal lagu!",
-        "required": true,
-        "value": "160"
-      },
       "HEROKU_API_KEY": {
-        "description": "Isi dengan Token Api heroku.",
+        "description": "Your Heroku account's API key",
         "value": "",
         "required": false
       },
       "HEROKU_APP_NAME": {
-        "description": "Isi dengan nama sesuai app name pake huruf kecil.",
+        "description": "Your heroku app/bot's name",
         "value": "",
         "required": false
       },
       "LOG_GROUP_ID": {
-        "description": "ID Grup Log Anda, tambahkan bot Anda dan promosikan sebagai admin dengan hak penuh!. Gunakan hanya Grup. Tolong jangan gunakan ID Channel.",
+        "description": "Your Log Group ID, add your bot and promote as an admin with full rights!. Use only Group. Please don't use Channel ID.",
         "value": "",
         "required": true
       },
@@ -84,19 +74,9 @@
         "required": true
       },
       "UPSTREAM_BRANCH": {
-        "description": "Repo's Branch Name",
-        "value": "Musikku",
+        "description": "Upstream Repo's Branch Name",
+        "value": "master",
         "required": true
-      },
-      "SUPPORT_CHANNEL": {
-        "description": "Tautan Channel Dukungan jika ada, Biarkan kosong jika tidak ada dukungan. Tautan Anda harus dimulai dengan https://t.me/",
-        "value": "https://t.me/gabutan_escape",
-        "required": false
-      },
-      "SUPPORT_GROUP": {
-        "description": "Tautan Group Dukungan jika ada, Biarkan kosong jika tidak ada dukungan. Tautan Anda harus dimulai dengan https://t.me/",
-        "value": "https://t.me/aruna_mutual",
-        "required": false
       }
     },
     "buildpacks": [
@@ -115,6 +95,5 @@
               "quantity": 1,
               "size": "free"
           }
-      },
-      "stack": "container"
+      }
   }
