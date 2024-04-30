@@ -23,7 +23,7 @@ from config import BANNED_USERS, lyrical
 from strings import get_command
 from Musikku import (Apple, Resso, SoundCloud, Spotify, Telegram,
                         YouTube, app)
-from Musikku.core.call import Yukki
+from Musikku.core.call import Musikku
 from Musikku.utils import seconds_to_min, time_to_seconds
 from Musikku.utils.channelplay import get_channeplayCB
 from Musikku.utils.database import is_video_allowed
