@@ -10,10 +10,11 @@
 
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
-from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE, adminlist
+from config import PLAYLIST_IMG_URL, PRIVATE_BOT_MODE, adminlist, JOIN_DULU
 from strings import get_string
 from Musikku import YouTube, app
 from Musikku.misc import SUDOERS
+from Musikku.utils.sub import subcribe
 from Musikku.utils.database import (get_cmode, get_lang,
                                        get_playmode, get_playtype,
                                        is_active_chat,
@@ -36,6 +37,8 @@ def PlayWrapper(command):
                     "**Private Music Bot**\n\nOnly for authorized chats from the owner. Ask my owner to allow your chat first."
                 )
                 return await app.leave_chat(message.chat.id)
+        if config.JOIN_DULU:
+            await subcribe(client, message)
         if await is_commanddelete_on(message.chat.id):
             try:
                 await message.delete()
