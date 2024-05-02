@@ -61,3 +61,7 @@ Terimakasih
 ### Mari terhubung!
 
 <a href="https://t.me/kenkanasw"><img src="https://img.shields.io/badge/@kenkanasw-blue?style=flat&logo=telegram"/></a>
+
+### Catatan
+
+jika kamu sudah pernah menggunakan yukki dan pengen database nya bisa di pakai kembali silahkan ganti https://github.com/kenkansaja/Musikku/blob/b6c02dbdc732686dc8084eede8bf3e119ea905d9/Musikku/core/mongo.py#L43 sesuai nama data base yang sudah pernah di pakai
