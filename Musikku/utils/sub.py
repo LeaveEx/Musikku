@@ -2,11 +2,11 @@ from pyrogram.errors import UserNotParticipant
 from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 from Musikku import app
-import config
+from config import JOIN_DULU
 
 
 async def subcribe(client, message):
-    if not config.JOIN_DULU:
+    if not JOIN_DULU:
         return
     
     try:
