@@ -37,7 +37,7 @@ def PlayWrapper(command):
                     "**Private Music Bot**\n\nOnly for authorized chats from the owner. Ask my owner to allow your chat first."
                 )
                 return await app.leave_chat(message.chat.id)
-        if config.JOIN_DULU:
+        if JOIN_DULU:
             return await subcribe(client, message)
         if await is_commanddelete_on(message.chat.id):
             try:
